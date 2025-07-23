@@ -25,7 +25,7 @@ void HS::MIDIFrame::ProcessMIDIMsg(const MIDIMessage msg) {
 
             for(int ch = 0; ch < MIDIMAP_MAX; ++ch) {
                 if (mapping[ch].function == HEM_MIDI_START_OUT) {
-                    mapping[ch].trigout_q = 1;
+                    mapping[ch].ClockOut();
                 }
             }
 
@@ -43,7 +43,7 @@ void HS::MIDIFrame::ProcessMIDIMsg(const MIDIMessage msg) {
             ClearPolyBuffer();
             for (int ch = 0; ch < MIDIMAP_MAX; ++ch) {
                 mapping[ch].output = 0;
-                mapping[ch].trigout_q = 0;
+                mapping[ch].trigout_countdown = 0;
             }
             return;
             break;
@@ -121,7 +121,7 @@ void HS::MIDIFrame::ProcessMIDIMsg(const MIDIMessage msg) {
                         if (note_buffer[m_ch].size() != 1) break;
                     case HEM_MIDI_TRIG_OUT:
                     case HEM_MIDI_TRIG_ALWAYS_OUT:
-                        map.trigout_q = 1;
+                        map.ClockOut();
                         break;
 
                     case HEM_MIDI_GATE_OUT:
@@ -180,7 +180,7 @@ void HS::MIDIFrame::ProcessMIDIMsg(const MIDIMessage msg) {
                     }
                 }
 
-                if (map.function == HEM_MIDI_TRIG_ALWAYS_OUT) map.trigout_q = 1;
+                if (map.function == HEM_MIDI_TRIG_ALWAYS_OUT) map.ClockOut();
 
                 if (!CheckSustainLatch(m_ch)) {
                     if (!(note_buffer[m_ch].size() > 0)) { // turn mono gate off, only when all notes are off
@@ -361,10 +361,18 @@ void HS::IOFrame::Load(OC::IOFrame *ioframe) {
             changed_cv[i] = 1;
             last_cv[i] = inputs[i];
         } else changed_cv[i] = 0;
+    }
 
-        // Handle clock pulse timing
+    // Handle clock pulse timing
+    for (int i = 0; i < DAC_CHANNEL_COUNT; ++i) {
         if (clock_countdown[i] > 0) {
             if (--clock_countdown[i] == 0) outputs[i] = 0;
+        }
+    }
+    for (int i = 0; i < MIDIMAP_MAX; ++i) {
+        MIDIMapping& m = MIDIState.mapping[i];
+        if (m.trigout_countdown > 0) {
+            if (--m.trigout_countdown == 0) m.output = 0;
         }
     }
 
