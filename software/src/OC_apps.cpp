@@ -705,7 +705,6 @@ void AppSwitcher::Init(bool reset_settings) {
   auto current_app_index = app_container.IndexOfAppByID(global_settings.current_app_id);
   if (current_app_index >= app_container.num_apps()) {
     APPS_SERIAL_PRINTLN("App id %02x not found, using default!", global_settings.current_app_id);
-    global_settings.current_app_id = DEFAULT_APP_ID;
     current_app_index = DEFAULT_APP_INDEX;
   }
 
