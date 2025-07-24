@@ -309,11 +309,20 @@ private:
           gfxPrint(level % 10);
           gfxPrint("%");
         } else {
-          int ms_value = adsr.setting[stage]
-                       * ((stage == RELEASE_STAGE)? MAX_TICKS_R : MAX_TICKS_AD)
-                       / STAGE_MAX_VALUE / 17;
-          gfxPrint(ms_value);
-          gfxPrint("ms");
+          if (shape_edit) {
+            gfxInvert(9, 22, 12, 9); // highlight label
+            int val = Proportion(adsr.shape[stage], 0xff, 1000);
+            gfxPrint(val / 10);
+            gfxPrint(".");
+            gfxPrint(val % 10);
+            gfxPrint("%");
+          } else {
+            int ms_value = adsr.setting[stage]
+                         * ((stage == RELEASE_STAGE)? MAX_TICKS_R : MAX_TICKS_AD)
+                         / STAGE_MAX_VALUE / 17;
+            gfxPrint(ms_value);
+            gfxPrint("ms");
+          }
         }
     }
 
