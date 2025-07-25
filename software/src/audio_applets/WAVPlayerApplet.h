@@ -75,7 +75,14 @@ public:
 
         if (wavplayer_playtrig && go_time) {
           wavplayer.play();
+          loop_count = 0;
           wavplayer_playtrig = false;
+        }
+
+        if (syncloopstart && go_time) {
+          ToggleLoop();
+          syncloopstart = false;
+          retrig = false;
         }
         if (retrig) {
           if (wavplayer.available()) {
@@ -85,10 +92,6 @@ public:
           retrig = false;
         }
 
-        if (syncloopstart && go_time) {
-          ToggleLoop();
-          syncloopstart = false;
-        }
 
         if (tempo_sync && sync_trig) {
           wavplayer.syncTrig();
@@ -346,7 +349,6 @@ private:
   }
   void StartPlaying() {
     wavplayer_playtrig = true;
-    loop_count = -1;
     go_time = false;
   }
   bool FileIsPlaying() {
