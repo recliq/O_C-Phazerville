@@ -85,11 +85,7 @@ public:
               calstate.used_defaults = true;
             }
             break;
-#ifdef VOR
-          case DAC_A_VOLT_6:
-#else
-          case DAC_A_VOLT_5:
-#endif
+          case DAC_A_VOLT_HIGH:
             if (calstate.used_defaults) {
               // copy DAC A to the rest of them, to make life easier
               for (int ch = 1; ch < DAC_CHANNEL_LAST; ++ch) {
@@ -413,7 +409,7 @@ public:
         }
         if (event.control == OC::CONTROL_BUTTON_R && event.type == UI::EVENT_BUTTON_PRESS) FactoryReset();
 
-        // dual-press UP + DOWN to flip screen
+        // dual-press UP+DOWN / A+B to flip screen
         if ( event.type == UI::EVENT_BUTTON_DOWN &&
             (event.mask == (OC::CONTROL_BUTTON_A | OC::CONTROL_BUTTON_B)) ) {
           OC::calibration_data.toggle_flipmode();
@@ -450,10 +446,12 @@ public:
 
           case CONTROL_ENCODER_L:
             if (calstate.step > HELLO) {
-              if (calstate.current_step->calibration_type == CALIBRATE_OCTAVE && !calstate.used_defaults) {
+              if (calstate.current_step->calibration_type == CALIBRATE_OCTAVE
+                  && !calstate.used_defaults
+                  && calstate.current_step->index > 0) {
                 // fine-tuning for CALIBRATE_DAC
                 int octave = current_octave + event.value;
-                if (octave < 0 || octave > min(OCTAVES, calstate.current_step->index + 7))
+                if (octave < 1 || octave > min(OCTAVES, calstate.current_step->index + 7))
                   SwitchToStep( static_cast<CALIBRATION_STEP>(calstate.step + event.value) );
                 else {
                   current_octave = octave;
@@ -475,7 +473,7 @@ public:
             if (UI::EVENT_BUTTON_LONG_PRESS == event.type) {
               const CalibrationStep *step = calstate.current_step;
 
-              // long-press DOWN to measure ADC points
+              // long-press B/DOWN to measure ADC points
               switch (step->step) {
                 case ADC_PITCH_C2:
                   calstate.adc_1v = OC::ADC::value(ADC_CHANNEL_1);
@@ -486,14 +484,16 @@ public:
                 default: break;
               }
 
-              // long-press DOWN to auto-scale DAC values on current channel
-              if (step->calibration_type == CALIBRATE_OCTAVE && current_octave > 0) {
+              // Long-press B/DOWN to auto-scale DAC values on current channel
+              // Non-linearity appears at the very bottom or top of range,
+              // so we'll use the 2nd lowest point as "first"
+              if (step->calibration_type == CALIBRATE_OCTAVE && current_octave > 1) {
                 int ch = step_to_channel(step->step);
-                uint32_t first = OC::calibration_data.dac.calibrated_octaves[ch][0];
+                uint32_t first = OC::calibration_data.dac.calibrated_octaves[ch][1];
                 uint16_t second = OC::calibration_data.dac.calibrated_octaves[ch][current_octave];
-                int interval = (second - first) / current_octave;
+                int interval = (second - first) / (current_octave - 1);
 
-                for (int i = 1; i < OCTAVES + 1; ++i) {
+                for (int i = 2; i < OCTAVES + 1; ++i) {
                   first += interval;
                   if (first > 0xFFFF) first = 0xFFFF;
                   OC::calibration_data.dac.calibrated_octaves[ch][i] = first;
