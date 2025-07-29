@@ -157,7 +157,7 @@ bool load_config(const char* filename, FS &fs)
   }
 
   // XXX: for size verification
-  //size_t expected_record_count = uint16_t(buf[2]) | uint16_t(buf[3]) << 8;
+  size_t expected_record_count = uint16_t(buf[2]) | uint16_t(buf[3]) << 8;
   uint64_t expected_checksum =
           (uint64_t)buf[4] |
           (uint64_t)buf[5] << 8 |
