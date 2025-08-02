@@ -74,13 +74,11 @@ public:
       sync_trig = true;
     }
 
-    if (playstop_cv.Gate() && !FileIsPlaying()) {
-      StartPlaying();
-    }
-
-    if (playstop_cv.source != NONE && !playstop_cv.Gate() && FileIsPlaying()) {
-      // trigger it to STOP... but should we actually call stop from ISR?
-      ToggleFilePlayer();
+    if (playstop_cv.Clock()) {
+      if (FileIsPlaying())
+        retrig = true;
+      else
+        StartPlaying();
     }
 
     titlestat[7] = FileIsPlaying() ? '*' : ' ';
