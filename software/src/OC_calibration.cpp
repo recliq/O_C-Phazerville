@@ -224,36 +224,28 @@ const CalibrationStep calibration_steps[CALIBRATION_STEP_LAST] = {
     { DAC_D_VOLT_HIGH,  "DAC D 9.0 volts", "-> 9.000V ", long_press_hint, default_footer, CALIBRATE_OCTAVE, 9, nullptr, 0, DAC::MAX_VALUE },
   #else
     { DAC_A_VOLT_MIN, "DAC A (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_A_VOLT_LOW, "DAC A (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_A_VOLT_HIGH,  "DAC A (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
   
     { DAC_B_VOLT_MIN, "DAC B (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_B_VOLT_LOW, "DAC B (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_B_VOLT_HIGH,  "DAC B (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
   
     { DAC_C_VOLT_MIN, "DAC C (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_C_VOLT_LOW, "DAC C (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_C_VOLT_HIGH,  "DAC C (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
   
     { DAC_D_VOLT_MIN, "DAC D (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_D_VOLT_LOW, "DAC D (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_D_VOLT_HIGH,  "DAC D (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
 
 #ifdef ARDUINO_TEENSY41
     { DAC_E_VOLT_MIN, "DAC E (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_E_VOLT_LOW, "DAC E (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_E_VOLT_HIGH,  "DAC E (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
 
     { DAC_F_VOLT_MIN, "DAC F (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_F_VOLT_LOW, "DAC F (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_F_VOLT_HIGH,  "DAC F (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
 
     { DAC_G_VOLT_MIN, "DAC G (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_G_VOLT_LOW, "DAC G (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_G_VOLT_HIGH,  "DAC G (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
 
     { DAC_H_VOLT_MIN, "DAC H (min)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 0, nullptr, 0, DAC::MAX_VALUE },
-    { DAC_H_VOLT_LOW, "DAC H (low)", "", default_help_r, default_footer, CALIBRATE_OCTAVE, 1, nullptr, 0, DAC::MAX_VALUE },
     { DAC_H_VOLT_HIGH,  "DAC H (high)", "", long_press_hint, default_footer, CALIBRATE_OCTAVE, 8, nullptr, 0, DAC::MAX_VALUE },
 #endif
   #endif
