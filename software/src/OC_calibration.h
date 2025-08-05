@@ -16,6 +16,7 @@
 
 namespace OC {
 
+static constexpr uint16_t _ADC_OFFSET_NLM = 4095; // 0V == maximum 12-bit ADC value
 #ifdef NORTHERNLIGHT
 static constexpr uint16_t _ADC_OFFSET = (uint16_t)((float)pow(2,OC::ADC::kAdcResolution)*1.0f);   // ADC offset @3.3V
 #else

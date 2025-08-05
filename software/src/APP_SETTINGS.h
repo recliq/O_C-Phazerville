@@ -502,6 +502,11 @@ public:
                 default: break;
               }
 
+              // long-press to set ADC zero-point offset
+              if (CALIBRATE_ADC_OFFSET == step->calibration_type) {
+                calstate.encoder_value = OC::ADC::smoothed_raw_value(static_cast<ADC_CHANNEL>(step->index));
+              }
+
               // long-press DOWN to auto-scale DAC values on current channel
               if (step->calibration_type == CALIBRATE_OCTAVE && current_octave > 0) {
                 InterpolateChannel(step_to_channel(step->step));

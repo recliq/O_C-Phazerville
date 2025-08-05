@@ -110,9 +110,9 @@ const CalibrationData kNLMCalibrationDefaults = {
   // ADC
   { {
 #ifdef ARDUINO_TEENSY41
-      _ADC_OFFSET, _ADC_OFFSET, _ADC_OFFSET, _ADC_OFFSET,
+      _ADC_OFFSET_NLM, _ADC_OFFSET_NLM, _ADC_OFFSET_NLM, _ADC_OFFSET_NLM,
 #endif
-      _ADC_OFFSET, _ADC_OFFSET, _ADC_OFFSET, _ADC_OFFSET
+      _ADC_OFFSET_NLM, _ADC_OFFSET_NLM, _ADC_OFFSET_NLM, _ADC_OFFSET_NLM
     },
     0,  // pitch_cv_scale
     0   // pitch_cv_offset : unused
