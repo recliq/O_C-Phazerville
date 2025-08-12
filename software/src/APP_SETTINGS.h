@@ -145,11 +145,15 @@ public:
         break;
         #endif
 
-        case CALIBRATE_ADC_OFFSET:
-          calstate.encoder_value = OC::calibration_data.adc.offset[next_step->index];
-            #ifdef VOR
-            DAC::set_Vbias(DAC::VBiasUnipolar);
-            #endif
+        case CALIBRATE_ADC_OFFSET: // set ADC zero-point offset
+          if (calstate.used_defaults) // start fresh? auto-cal
+            calstate.encoder_value = OC::ADC::smoothed_raw_value(static_cast<ADC_CHANNEL>(next_step->index));
+          else
+            calstate.encoder_value = OC::calibration_data.adc.offset[next_step->index];
+
+          #ifdef VOR
+          DAC::set_Vbias(DAC::VBiasUnipolar);
+          #endif
           break;
         case CALIBRATE_DISPLAY:
           calstate.encoder_value = OC::calibration_data.display_offset;
